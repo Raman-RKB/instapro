@@ -113,3 +113,124 @@ width: 40px;
     flex-direction: row;
     align-items: center;
   }
+
+  .page-container{
+    padding: 0 20px;
+  }
+
+  .header-container{
+    margin-bottom: 8px;
+  }
+
+  .page-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 16px;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  .logo{
+margin: 0;
+    font-size: 28px;
+    cursor: pointer;
+    width: 130px;
+  }
+
+  .form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-title{
+    font-size: 28px;
+    line-height: 35px;
+    text-align: center;
+  }
+
+  .form-inputs{
+        display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-image-container{
+    display: block;
+  }
+
+  .upload-image{
+display: block;
+  }
+
+  .file-upload-label {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+
+  .button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
+
+.secondary-button {
+    background-color: #edecff;
+    color: #565eef;
+}
+
+.input {
+    height: 36px;
+    box-sizing: border-box;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(4, 18, 27);
+    border: none;
+    border-radius: 5px;
+    background-color: #e8e8e8;
+}
+
+.form-error {
+    color: red;
+}
+
+.button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
+
+.form-footer {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-footer-title {
+    text-align: center;
+}
+
+.link-button {
+    display: inline;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: #565eef;
+    cursor: pointer;
+}

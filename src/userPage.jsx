@@ -2,8 +2,16 @@ import './App.css';
 import LikeNotActive from './img/like-not-active.svg';
 import MyAva from './img/Raman.webp';
 
-function User({ img, likesQuantity, description }) {
-    // console.log(likesQuantity);
+function User({ img, likesQuantity, description, date }) {
+    const dateObj = new Date(date);
+    const now = new Date();
+    const differenceMs = now - dateObj;
+    const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
+
+
+
+    // console.log(differenceMs);
+
     return (
         <li className="post">
             <div className="post-header">
@@ -28,7 +36,7 @@ function User({ img, likesQuantity, description }) {
                 <span className="user-name">Админ&nbsp;</span>
                 {description}
             </p>
-            <p className="post-date">7 дней назад</p>
+            <p className="post-date">{`${differenceDays} дней назад`}</p>
         </li>
     );
 }
