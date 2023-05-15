@@ -2,8 +2,6 @@ import './App.css';
 import UserPage from './userPage';
 import { useState, useEffect } from 'react';
 
-//для реквеста
-
 function App() {
   const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/roman/instapro';
   const [allPosts, setAllPosts] = useState([]);
@@ -19,7 +17,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-     console.log(allPosts[0]);
+    console.log(allPosts[0]);
   }, [allPosts])
 
   return (
