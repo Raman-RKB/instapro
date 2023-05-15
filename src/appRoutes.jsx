@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import App from "./auth";
+import App from "./App";
 import Auth from "./auth";
 
 export const AppRoutes = () => {
     return (
         <Routes>
-            {/* <Route path="/" element={<App />} /> */}
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<App />} />
+            <Route exact path="/auth" element={<Auth />} />
 
             {/* <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<Profile />} />
