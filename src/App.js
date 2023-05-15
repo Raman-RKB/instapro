@@ -1,10 +1,8 @@
 import './App.css';
 import UserPage from './userPage';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 function App() {
-  const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/roman/instapro';
   const [allPosts, setAllPosts] = useState([]);
 
   function renderAllPosts() {
@@ -27,25 +25,26 @@ function App() {
         <div className="header-container">
           <div className="page-header">
             <div className="logo">instapro</div>
-            <Link to="/auth">
-              <button className="header-button add-or-login-button">Войти</button>
-            </Link>
+            <button className="header-button add-or-login-button">Войти</button>
           </div>
-          <ul className="posts">
-            {allPosts && allPosts?.map((post) => (
-              <UserPage
-                key={post.id}
-                img={post.imageUrl}
-                likesQuantity={post.likes.length}
-                description={post.description}
-                date={post.createdAt}
-              />
-            ))}
-          </ul>
         </div>
+        <ul className="posts" >
+          {allPosts && allPosts?.map((post) => (
+            <UserPage
+              key={post.id}
+              img={post.imageUrl}
+              likes={post.likes}
+              description={post.description}
+              date={post.createdAt}
+              name={post.user.name}
+              userAva={post.user.imageUrl}
+              userId={post.user.id}
+            />
+          ))}
+        </ul>
       </div>
     </div>
-
+    
   );
 }
 
