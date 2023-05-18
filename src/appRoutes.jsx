@@ -8,15 +8,9 @@ export const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<App />} />
-            <Route exact path="/reg" element={<Reg />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/add-post" element={<AddPost />} />
-            {/* <Route element={<ProtectedRoute />}>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings/:id" element={<Settings />} />
-        <Route path="/product/:myadvt/:id" element={<Product />} />
-        <Route path="/addnewat" element={<Addnewat />} />
-      </Route> */}
+            <Route path="/reg" element={<Reg />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/add-post" element={<AddPost />} />
         </Routes>
     );
 };

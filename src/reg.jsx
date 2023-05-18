@@ -1,12 +1,15 @@
 import './App.css';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Reg() {
-    const baseUrl = 'https://webdev-hw-api.vercel.app/api/user';
+    const baseUrl = 'https://webdev-hw-api.vercel.app';
     const [name, setName] = useState("");
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const [avatar, setAvatar] = useState("");
+
+    const navigate = useNavigate();
 
     function onNameSet(event) {
         const target = event.target.value;
@@ -25,18 +28,39 @@ function Reg() {
 
     function registerClick() {
         if (name.length && login.length && password.length) {
-            fetch(baseUrl, {
-                "login": `${login}`,
-                "name": `${name}`,
-                "password": `${password}`
-            }).then(response => response.json())
-                .then(data => console.log(data))
-                .then(data => {
-                    localStorage.setItem('userData', data)
+            fetch(baseUrl + '/api/user', {
+                method: "POST",
+                body: JSON.stringify({
+                    imageUrl: avatar,
+                    login: login,
+                    name: name,
+                    password: password
                 })
+            }).then(response => response.json())
+                .then(data => {
+                    localStorage.setItem('token', data.user.token);
+                    localStorage.setItem('id', data.user._id);
+                    localStorage.setItem('password', data.user.password);
+                    localStorage.setItem('login', data.user.login);
+                    navigate('/login');
+                })
+                .catch(error => console.log('ошибка:', error))
         } else {
             alert('Вы ввели не все данные')
         }
+    }
+
+    function handleAvaUpload(event) {
+        const img = event.target.files[0];
+        const data = new FormData();
+        data.append('file', img);
+
+        return fetch(baseUrl + "/api/upload/image", {
+            method: 'POST',
+            body: data
+        })
+            .then(response => response.json())
+            .then(data => setAvatar(data.fileUrl))
     }
 
     return (
@@ -44,18 +68,16 @@ function Reg() {
             <div className="header-container">
                 <div className="page-header">
                     <h1 className="logo">instapro</h1>
-                    <button className="header-button add-or-login-button">instapro</button>
+                    <button className="header-button add-or-login-button">Войти</button>
                 </div>
             </div>
             <div className="form">
-                <h3 className="form-title"> Регистрация&nbsp в&nbsp Instapro</h3>
+                <h3 className="form-title"> Регистрация&nbsp;в&nbsp;Instapro</h3>
                 <div className="form-inputs">
                     <div className="upload-image-container">
                         <div className="upload-image">
                             <label className="file-upload-label secondary-button">
-                                <input type="file"
-                                    className="file-upload-input"
-                                    style="display:none" />
+                                <input type="file" className="file-upload-input" style={{ display: 'none' }} onChange={handleAvaUpload} />
                                 Выберите фото
                             </label>
                         </div>
@@ -71,7 +93,7 @@ function Reg() {
                         Уже есть аккаунт?
                         <NavLink to='/'>
                             <button class="link-button" id="toggle-button">
-                                Войти.
+                                &nbsp;Войти.
                             </button>
                         </NavLink>
                     </p>

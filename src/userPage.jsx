@@ -9,8 +9,6 @@ function User({ img, likes, description, date, name, userAva, userId }) {
     const differenceMs = now - dateObj;
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 
-    // console.log(likes);
-
     function handleUserClick() {
         fetch(baseUrl.concat(`/user-posts/${userId}`)).then(response => response.json()).then(data => console.log(data));
     }
