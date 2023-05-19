@@ -1,6 +1,7 @@
 import './App.css';
 import App from './App';
 import { Link, useNavigate } from 'react-router-dom';
+import AppRoutes from './appRoutes';
 import { useEffect, useState } from 'react';
 
 function Login() {
@@ -8,7 +9,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-     console.log('зашло в login');
+    // console.log('зашло в login');
 
     const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ function Login() {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/');
+            navigate('/', { state: { isLoggedIn } });
         }
         console.log(isLoggedIn, 'в логине');
     }, [isLoggedIn])
@@ -84,7 +85,7 @@ function Login() {
                     </div>
                 </div>
             </div>
-            <App isLoggedIn={isLoggedIn} />
+            {/* <App isLoggedIn={isLoggedIn} /> */}
         </>
     );
 }
