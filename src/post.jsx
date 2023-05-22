@@ -1,13 +1,8 @@
 import './App.css';
 import LikeNotActive from './img/like-not-active.svg';
-// import UserPage from './userPage';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
-function Post({ img, likes, description, date, name, userAva, userId }) {
-    const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
-    const [userPosts, setUserPosts] = useState();
-
+function Post({ img, likes, description, date, name, userAva, userId, setUserId }) {
 
     const dateObj = new Date(date);
     const now = new Date();
@@ -15,21 +10,17 @@ function Post({ img, likes, description, date, name, userAva, userId }) {
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 
     function handleUserClick() {
-        fetch(baseUrl.concat(`/user-posts/${userId}`)).then(response => response.json()).then(data => setUserPosts(data));
+        setUserId(userId);
     }
-
-    // useEffect(() => {
-    //     console.log(userPosts, 'userPosts');
-    // }, [userPosts])
 
     return (
         <>
             <li className="post">
                 <Link to="/user-page">
-                    <div className="post-header" onClick={handleUserClick}>
+                    {userAva && <div className="post-header" onClick={handleUserClick}>
                         <img className="post-header__user-image" src={userAva}></img>
                         <p className="post-header__user-name">{name}</p>
-                    </div>
+                    </div>}
                 </Link>
                 <div className="post-image-container">
                     <img className="post-image" src={img}></img>
@@ -53,7 +44,6 @@ function Post({ img, likes, description, date, name, userAva, userId }) {
                 </p>
                 <p className="post-date">{`${differenceDays} дней назад`}</p>
             </li>
-            {/* <UserPage userPosts={userPosts} /> */}
         </>
     );
 }

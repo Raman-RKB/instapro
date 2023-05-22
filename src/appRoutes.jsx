@@ -3,16 +3,21 @@ import App from "./App";
 import Reg from "./reg";
 import Login from "./login";
 import AddPost from "./addpost";
-// import UserPage from "./userPage";
+import { useState } from "react";
+import UserPage from "./userPage";
 
-export const AppRoutes = ({ isLoggedIn }) => {
+export const AppRoutes = () => {
+    const [auth, setAuth] = useState(false);
+    const [userId, setUserId] = useState(false);
+
     return (
+
         <Routes>
-            <Route path="/" element={<App isLoggedIn={isLoggedIn} />} />
+            <Route path="/" element={<App auth={auth} setUserId={setUserId} />} />
             <Route path="/reg" element={<Reg />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setAuth={setAuth} />} />
             <Route path="/add-post" element={<AddPost />} />
-            {/* <Route path="/user-page" element={<UserPage />} /> */}
+            <Route path="/user-page" element={<UserPage auth={auth} userId={userId} />} />
         </Routes>
     );
 };

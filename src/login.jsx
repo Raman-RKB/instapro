@@ -1,15 +1,10 @@
 import './App.css';
-import App from './App';
 import { Link, useNavigate } from 'react-router-dom';
-import AppRoutes from './appRoutes';
 import { useEffect, useState } from 'react';
 
-function Login() {
+function Login({ setAuth }) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // console.log('зашло в login');
 
     const navigate = useNavigate();
 
@@ -33,8 +28,8 @@ function Login() {
                 })
             })
                 .then(() => {
-                    console.log('попало в then');
-                    setIsLoggedIn(true);
+                    setAuth(true);
+                    navigate('/');
                 })
 
                 .catch(error => console.log('ошибка:', error))
@@ -44,14 +39,7 @@ function Login() {
     }
 
     useEffect(() => {
-        if (isLoggedIn) {
-            navigate('/', { state: { isLoggedIn } });
-        }
-        console.log(isLoggedIn, 'в логине');
-    }, [isLoggedIn])
-
-    useEffect(() => {
-        setIsLoggedIn(false)
+        setAuth(false);
     }, [])
 
     return (
@@ -85,7 +73,6 @@ function Login() {
                     </div>
                 </div>
             </div>
-            {/* <App isLoggedIn={isLoggedIn} /> */}
         </>
     );
 }
