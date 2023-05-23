@@ -9,15 +9,18 @@ import UserPage from "./userPage";
 export const AppRoutes = () => {
     const [auth, setAuth] = useState(false);
     const [userId, setUserId] = useState(false);
+    const [userToken, setUserToken] = useState();
+
+    console.log(userToken, 'userToken в AppRoutes');
 
     return (
 
         <Routes>
-            <Route path="/" element={<App auth={auth} setUserId={setUserId} />} />
-            <Route path="/reg" element={<Reg />} />
+            <Route path="/" element={<App userToken={userToken} auth={auth} setUserId={setUserId} />} />
+            <Route path="/reg" element={<Reg setUserToken={setUserToken} />} />
             <Route path="/login" element={<Login setAuth={setAuth} />} />
-            <Route path="/add-post" element={<AddPost />} />
-            <Route path="/user-page" element={<UserPage auth={auth} userId={userId} />} />
+            <Route path="/add-post" element={<AddPost userToken={userToken} />} />
+            <Route path="/user-page" element={<UserPage userToken={userToken} auth={auth} userId={userId} />} />
         </Routes>
     );
 };

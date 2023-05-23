@@ -1,33 +1,55 @@
+import { useState } from 'react';
 import './App.css';
 import LikeNotActive from './img/like-not-active.svg';
-import { Link } from 'react-router-dom';
+import LikeActive from './img/like-active.svg';
+import { useNavigate } from 'react-router-dom';
 
-function Post({ img, likes, description, date, name, userAva, userId, setUserId }) {
+function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
+    const [like, setLike] = useState(false);
+    const navigate = useNavigate();
+
+    // console.log(userToken, 'userToken в Post');
+
+    const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
 
     const dateObj = new Date(date);
     const now = new Date();
     const differenceMs = now - dateObj;
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 
+    function onLikeClick() {
+        if (like) {
+            setLike(false);
+        } else {
+            fetch(baseUrl + `/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${userToken}`
+                }
+            })
+            setLike(true);
+        }
+
+    }
+
     function handleUserClick() {
         setUserId(userId);
+        navigate('/user-page')
     }
 
     return (
         <>
             <li className="post">
-                <Link to="/user-page">
-                    {userAva && <div className="post-header" onClick={handleUserClick}>
-                        <img className="post-header__user-image" src={userAva}></img>
-                        <p className="post-header__user-name">{name}</p>
-                    </div>}
-                </Link>
+                {userAva && <div className="post-header" onClick={handleUserClick}>
+                    <img className="post-header__user-image" src={userAva}></img>
+                    <p className="post-header__user-name">{name}</p>
+                </div>}
                 <div className="post-image-container">
                     <img className="post-image" src={img}></img>
                 </div>
                 <div className="post-likes">
-                    <button className="like-button">
-                        <img src={LikeNotActive}></img>
+                    <button className="like-button" onClick={onLikeClick}>
+                        <img src={like ? LikeActive : LikeNotActive}></img>
                     </button>
                     {likes.length > 0 ? (
                         <p className="post-likes-text">

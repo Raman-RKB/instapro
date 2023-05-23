@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function AddPost() {
+function AddPost({ userToken }) {
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState();
 
@@ -14,14 +14,24 @@ function AddPost() {
     }
 
     function onImageChange(event) {
-        const target = event.target.value;
-        setImageUrl(target);
+        const img = event.target.files[0];
+        const data = new FormData();
+        data.append('file', img);
+
+        return fetch('https://webdev-hw-api.vercel.app/api/upload/image', {
+            method: 'POST',
+            body: data
+        })
+            .then(response => response.json())
+            .then(data => setImageUrl(data.fileUrl))
     }
 
     function onAddPostClick() {
-        console.log('попало в onAddPostClick');
         fetch('https://webdev-hw-api.vercel.app/api/v1/prod/instapro', {
             method: "POST",
+            headers: {
+                "Authorization": `Bearer ${userToken}`
+            },
             body: JSON.stringify({
                 description: description,
                 imageUrl: imageUrl
@@ -30,15 +40,23 @@ function AddPost() {
             .then(navigate('/'))
     }
 
+    function onQuitToLogin() {
+        navigate('/login');
+    }
+
+    function navigateToMain() {
+        navigate('/');
+    }
+
     return (
         <div className="page-container">
             <div className="header-container">
                 <div className="page-header">
-                    <h1 className="logo">instapro</h1>
+                    <h1 className="logo" onClick={navigateToMain}>instapro</h1>
                     <button className="header-button add-or-login-button">
                         <div title="Добавить пост" className="add-post-sign"></div>
                     </button>
-                    <button title="Роман" className="header-button logout-button">Выйти</button>
+                    <button title="Роман" className="header-button logout-button" onClick={onQuitToLogin}>Выйти</button>
                 </div>
             </div>
             <div className="form">
