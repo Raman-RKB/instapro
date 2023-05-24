@@ -7,6 +7,8 @@ function UserPage({ auth, userId, userToken }) {
     const [allPosts, setAllPosts] = useState([]);
     const navigate = useNavigate();
 
+    // console.log(userId, 'userId  в UserPage');
+
     function navigateToMain() {
         navigate('/');
     }

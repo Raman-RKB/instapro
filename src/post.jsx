@@ -6,9 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
     const [like, setLike] = useState(false);
+    const [likeState, setLikeState] = useState(likes);
     const navigate = useNavigate();
-
-    // console.log(userToken, 'userToken в Post');
 
     const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
 
@@ -19,7 +18,18 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
 
     function onLikeClick() {
         if (like) {
-            setLike(false);
+            fetch(baseUrl + `/${postId}/dislike`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${userToken}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data && setLike(false)
+                    refreshLikes()
+                })
+                .catch(error => console.log('ошибка:', error))
         } else {
             fetch(baseUrl + `/${postId}/like`, {
                 method: 'POST',
@@ -27,14 +37,28 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                     "Authorization": `Bearer ${userToken}`
                 }
             })
-            setLike(true);
+                .then(response => response.json())
+                .then(data => {
+                    data && setLike(true)
+                    refreshLikes()
+                })
+                .catch(error => console.log('ошибка:', error))
         }
-
     }
 
     function handleUserClick() {
         setUserId(userId);
         navigate('/user-page')
+    }
+
+    function refreshLikes() {
+        fetch(`https://webdev-hw-api.vercel.app/api/v1/prod/instapro/user-posts/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                for (let i = 0; i < data.posts.length; i++) {
+                    data.posts[i].id === postId && setLikeState(data.posts[i].likes)
+                }
+            })
     }
 
     return (
@@ -51,12 +75,12 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                     <button className="like-button" onClick={onLikeClick}>
                         <img src={like ? LikeActive : LikeNotActive}></img>
                     </button>
-                    {likes.length > 0 ? (
+                    {likeState.length > 0 ? (
                         <p className="post-likes-text">
                             Нравится:&nbsp;
-                            <strong>{likes[0].name}</strong>
+                            <strong>{likeState[0].name}</strong>
                             &nbsp;и&nbsp;
-                            <strong>{`еще ${likes.length - 1}`}</strong>
+                            <strong>{`еще ${likeState.length - 1}`}</strong>
                         </p>
                     ) : ''}
                 </div>

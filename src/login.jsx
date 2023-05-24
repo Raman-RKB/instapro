@@ -27,7 +27,9 @@ function Login({ setAuth, setUserToken }) {
                     password: password
                 })
             })
+                .then(responce => responce.json())
                 .then((data) => {
+                    setUserToken(data.user.token)
                     setAuth(true);
                     console.log(data, 'ответ после логина');
                     navigate('/');
