@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-function Reg() {
+function Reg({ setUserToken }) {
     const baseUrl = 'https://webdev-hw-api.vercel.app';
     const [name, setName] = useState("");
     const [login, setLogin] = useState("");
@@ -38,10 +38,7 @@ function Reg() {
                 })
             }).then(response => response.json())
                 .then(data => {
-                    localStorage.setItem('token', data.user.token);
-                    localStorage.setItem('id', data.user._id);
-                    localStorage.setItem('password', data.user.password);
-                    localStorage.setItem('login', data.user.login);
+                    setUserToken(data.user.token);
                     navigate('/login');
                 })
                 .catch(error => console.log('ошибка:', error))

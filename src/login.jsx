@@ -2,7 +2,7 @@ import './App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function Login({ setAuth }) {
+function Login({ setAuth, setUserToken }) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
@@ -27,8 +27,9 @@ function Login({ setAuth }) {
                     password: password
                 })
             })
-                .then(() => {
+                .then((data) => {
                     setAuth(true);
+                    console.log(data, 'ответ после логина');
                     navigate('/');
                 })
 
