@@ -16,11 +16,11 @@ export const AppRoutes = () => {
     return (
 
         <Routes>
-            <Route path="/" element={<App userToken={userToken} auth={auth} setUserId={setUserId} />} />
+            <Route path="/" element={<App userToken={userToken} setUserId={setUserId} />} />
             <Route path="/reg" element={<Reg setUserToken={setUserToken} />} />
             <Route path="/login" element={<Login setAuth={setAuth} setUserToken={setUserToken} />} />
             <Route path="/add-post" element={<AddPost userToken={userToken} />} />
-            <Route path="/user-page" element={<UserPage userToken={userToken} auth={auth} userId={userId} />} />
+            <Route path="/user-page" element={<UserPage userToken={userToken} userId={userId} />} />
         </Routes>
     );
 };

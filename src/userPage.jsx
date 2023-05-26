@@ -1,13 +1,12 @@
 import './App.css';
 import Post from './post';
+import { renderAllUsersPosts } from './api-service';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function UserPage({ auth, userId, userToken }) {
+function UserPage({ userId, userToken }) {
     const [allPosts, setAllPosts] = useState([]);
     const navigate = useNavigate();
-
-    // console.log(userId, 'userId  в UserPage');
 
     function navigateToMain() {
         navigate('/');
@@ -17,14 +16,8 @@ function UserPage({ auth, userId, userToken }) {
         navigate('/add-post');
     }
 
-    function renderAllPosts() {
-        fetch(`https://webdev-hw-api.vercel.app/api/v1/prod/instapro/user-posts/${userId}`)
-            .then((response) => response.json())
-            .then((data) => setAllPosts(data.posts))
-    }
-
     useEffect(() => {
-        renderAllPosts()
+        renderAllUsersPosts(setAllPosts, userId)
     }, [])
 
     return (
@@ -34,11 +27,11 @@ function UserPage({ auth, userId, userToken }) {
                     <div className="page-header">
                         <div className="logo" onClick={navigateToMain}>instapro</div>
                         <button className="header-button add-or-login-button" onClick={navigateToAddPost}
-                            style={auth === true ? { display: 'block' } : { display: 'none' }}>
+                            style={userToken ? { display: 'block' } : { display: 'none' }}>
                             <div title="Добавить пост" className="add-post-sign"></div>
                         </button>
                         <Link to="/login">
-                            <button className="header-button add-or-login-button">{auth === true ? 'Выйти' : 'Войти'}</button>
+                            <button className="header-button add-or-login-button">{userToken ? 'Выйти' : 'Войти'}</button>
                         </Link>
                     </div>
                 </div>

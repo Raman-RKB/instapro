@@ -1,27 +1,22 @@
 import './App.css';
 import Post from './post';
+import { renderAllPosts } from './api-service';
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-function App({ auth, setUserId, userToken }) {
+function App({ setUserId, userToken }) {
   const [allPosts, setAllPosts] = useState([]);
   const navigate = useNavigate();
 
-  // console.log(allPosts, 'allPosts в App');
+  // console.log(renderAllPosts, 'renderAllPosts');
 
   function navigateToAddPost() {
     navigate('/add-post');
   }
 
-  function renderAllPosts() {
-    fetch('https://webdev-hw-api.vercel.app/api/v1/prod/instapro')
-      .then((response) => response.json())
-      .then((data) => setAllPosts(data.posts))
-  }
-
   useEffect(() => {
-    renderAllPosts()
+    renderAllPosts(setAllPosts)
   }, [])
 
   return (
@@ -31,13 +26,13 @@ function App({ auth, setUserId, userToken }) {
           <div className="page-header">
             <div className="logo">instapro</div>
             <button class="header-button add-or-login-button" onClick={navigateToAddPost}
-              style={auth === true ? { display: 'block' } : { display: 'none' }}
+              style={userToken ? { display: 'block' } : { display: 'none' }}
             >
               <div title="Добавить пост" class="add-post-sign"></div>
             </button>
             <NavLink to="/login">
               <button className="header-button add-or-login-button">
-                {auth === true ? 'Выйти' : 'Войти'}
+                {userToken ? 'Выйти' : 'Войти'}
               </button>
             </NavLink>
           </div>

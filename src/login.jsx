@@ -1,8 +1,9 @@
 import './App.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { loginClick } from './api-service';
 
-function Login({ setAuth, setUserToken }) {
+function Login({ setUserToken }) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
@@ -18,39 +19,14 @@ function Login({ setAuth, setUserToken }) {
         setPassword(target);
     }
 
-    function loginClick() {
-        if (login.length && password.length) {
-            fetch('https://webdev-hw-api.vercel.app/api/user/login', {
-                method: "POST",
-                body: JSON.stringify({
-                    login: login,
-                    password: password
-                })
-            })
-                .then(responce => responce.json())
-                .then((data) => {
-                    setUserToken(data.user.token)
-                    setAuth(true);
-                    console.log(data, 'ответ после логина');
-                    navigate('/');
-                })
-
-                .catch(error => console.log('ошибка:', error))
-        } else {
-            alert('Вы ввели не все данные')
-        }
-    }
-
-    useEffect(() => {
-        setAuth(false);
-    }, [])
-
     return (
         <>
             <div className="page-container">
                 <div className="header-container">
                     <div className="page-header">
-                        <h1 className="logo">instapro</h1>
+                        <Link to="/">
+                            <h1 className="logo">instapro</h1>
+                        </Link>
                         <button className="header-button add-or-login-button">
                             Войти
                         </button>
@@ -64,7 +40,7 @@ function Login({ setAuth, setUserToken }) {
                         <input type="text" id="login-input" className="input" placeholder="Логин" onChange={onLoginSet} />
                         <input type="password" id="password-input" className="input" placeholder="Пароль" onChange={onPasswordSet} />
                         <div className="form-error"></div>
-                        <button className="button" id="login-button" onClick={loginClick}>Войти</button>
+                        <button className="button" id="login-button" onClick={loginClick(login, password, setUserToken, navigate)}>Войти</button>
                     </div>
                     <div className="form-footer">
                         <p className="form-footer-title">
