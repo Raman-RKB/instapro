@@ -8,7 +8,7 @@ function App({ auth, setUserId, userToken }) {
   const [allPosts, setAllPosts] = useState([]);
   const navigate = useNavigate();
 
-  console.log(userToken, 'userToken в App');
+  // console.log(allPosts, 'allPosts в App');
 
   function navigateToAddPost() {
     navigate('/add-post');
