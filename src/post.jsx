@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './App.css';
-import LikeNotActive from './img/like-not-active.svg';
-import LikeActive from './img/like-active.svg';
-import { refreshLikes, onLikeClick } from './api-service';
+import likeNotActive from './img/like-not-active.svg';
+import likeActive from './img/like-active.svg';
 import { useNavigate } from 'react-router-dom';
+import { onDislikeQuery, onLikeQuery, onRefreshLikeQuery } from './api-service'
 
 function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
     const [like, setLike] = useState(false);
@@ -15,9 +15,36 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
     const differenceMs = now - dateObj;
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 
+    function onLikeClick() {
+        if (like) {
+            onDislikeQuery(postId, userToken)
+                .then(data => {
+                    data && setLike(false)
+                    refreshLikes()
+                })
+                .catch(error => console.error('ошибка:', error))
+        } else {
+            onLikeQuery(postId, userToken)
+                .then(data => {
+                    setLike(true)
+                    refreshLikes()
+                })
+                .catch(error => console.error('ошибка:', error))
+        }
+    }
+
     function handleUserClick() {
         setUserId(userId);
         navigate('/user-page')
+    }
+
+    function refreshLikes() {
+        onRefreshLikeQuery(userId)
+            .then((data) => {
+                for (let i = 0; i < data.posts.length; i++) {
+                    data.posts[i].id === postId && setLikeState(data.posts[i].likes)
+                }
+            })
     }
 
     return (
@@ -31,8 +58,8 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                     <img className="post-image" src={img}></img>
                 </div>
                 <div className="post-likes">
-                    <button className="like-button" onClick={onLikeClick(like, postId, userToken, setLike, userId, setLikeState)}>
-                        <img src={like ? LikeActive : LikeNotActive}></img>
+                    <button className="like-button" onClick={onLikeClick}>
+                        <img src={like ? likeActive : likeNotActive}></img>
                     </button>
                     {likeState.length > 0 ? (
                         <p className="post-likes-text">
