@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { onImageChangeQuery, onAddPostClickQuery } from './api-service';
 
 function AddPost({ userToken }) {
     const [description, setDescription] = useState("");
@@ -18,25 +19,12 @@ function AddPost({ userToken }) {
         const data = new FormData();
         data.append('file', img);
 
-        return fetch('https://webdev-hw-api.vercel.app/api/upload/image', {
-            method: 'POST',
-            body: data
-        })
-            .then(response => response.json())
+        onImageChangeQuery(data)
             .then(data => setImageUrl(data.fileUrl))
     }
 
     function onAddPostClick() {
-        fetch('https://webdev-hw-api.vercel.app/api/v1/prod/instapro', {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${userToken}`
-            },
-            body: JSON.stringify({
-                description: description,
-                imageUrl: imageUrl
-            })
-        })
+        onAddPostClickQuery(userToken, description, imageUrl)
             .then(navigate('/'))
     }
 

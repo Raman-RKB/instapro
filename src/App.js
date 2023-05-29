@@ -9,14 +9,14 @@ function App({ setUserId, userToken }) {
   const [allPosts, setAllPosts] = useState([]);
   const navigate = useNavigate();
 
-  // console.log(renderAllPosts, 'renderAllPosts');
-
   function navigateToAddPost() {
     navigate('/add-post');
   }
 
   useEffect(() => {
-    renderAllPosts(setAllPosts)
+    console.log('сделало запрос на все посты');
+    renderAllPosts()
+      .then(posts => setAllPosts(posts?.posts))
   }, [])
 
   return (
