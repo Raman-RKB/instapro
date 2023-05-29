@@ -4,6 +4,7 @@ import { renderAllPosts } from './api-service';
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 function App({ setUserId, userToken }) {
   const [allPosts, setAllPosts] = useState([]);
@@ -14,13 +15,13 @@ function App({ setUserId, userToken }) {
   }
 
   useEffect(() => {
-    console.log('сделало запрос на все посты');
     renderAllPosts()
       .then(posts => setAllPosts(posts?.posts))
   }, [])
 
   return (
     <div className="App">
+      <Spinner animation="border" />
       <div className="page-container">
         <div className="header-container">
           <div className="page-header">
