@@ -11,8 +11,6 @@ export const AppRoutes = () => {
     const [userId, setUserId] = useState();
     const [userToken, setUserToken] = useState();
 
-    // console.log(userToken, 'userToken в AppRoutes');
-
     return (
 
         <Routes>

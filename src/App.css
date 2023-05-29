@@ -287,3 +287,33 @@ display: block;
     font-size: 28px;
     line-height: 35px;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.file-upload-image-conrainer {
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
