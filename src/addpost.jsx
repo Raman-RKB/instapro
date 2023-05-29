@@ -70,4 +70,3 @@ function AddPost({ userToken }) {
 }
 
 export default AddPost;
-

@@ -5,6 +5,7 @@ import likeActive from './img/like-active.svg';
 import { useNavigate } from 'react-router-dom';
 import { onDislikeQuery, onLikeQuery, onRefreshLikeQuery } from './api-service'
 
+
 function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
     const [like, setLike] = useState(false);
     const [likeState, setLikeState] = useState(likes);
@@ -14,6 +15,8 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
     const now = new Date();
     const differenceMs = now - dateObj;
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
+    const hoursAgo = Math.floor(differenceMs / (1000 * 60 * 60));
+    const minutesAgo = Math.floor(differenceMs / (1000 * 60));
 
     function onLikeClick() {
         if (like) {
@@ -68,13 +71,25 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                             &nbsp;и&nbsp;
                             <strong>{`еще ${likeState.length - 1}`}</strong>
                         </p>
-                    ) : ''}
+                    ) : (
+                        <p className="post-likes-text">
+                            Нравится:&nbsp;0
+                        </p>
+                    )}
                 </div>
                 <p className="post-text">
                     <span className="user-name">{name}&nbsp;</span>
                     {description}
                 </p>
-                <p className="post-date">{`${differenceDays} дней назад`}</p>
+
+                {differenceMs > 86400000 ?
+                    (<p className="post-date">{`${differenceDays} дня назад`}</p>)
+                    :
+                    (differenceMs > 3600000 ?
+                        (<p className="post-date">{`${hoursAgo} час назад`}</p>)
+                        :
+                        (<p className="post-date">{`${minutesAgo} минута назад`}</p>))
+                }
             </li>
         </>
     );
