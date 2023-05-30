@@ -1,6 +1,6 @@
-import './App.css';
-import Post from './post';
-import { renderAllPosts } from './api-service';
+import './style/App.css';
+import Post from './Post';
+import { renderAllPosts } from './ApiService';
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';

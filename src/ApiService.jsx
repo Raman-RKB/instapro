@@ -1,5 +1,6 @@
 const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
 
+
 export function renderAllPosts() {
     return fetch(baseUrl)
         .then((response) => response.json())
@@ -12,7 +13,6 @@ export function renderAllUsersPosts(setAllPosts, userId) {
 }
 
 export function onloginClickQuery(login, password) {
-
     return fetch('https://webdev-hw-api.vercel.app/api/user/login', {
         method: "POST",
         body: JSON.stringify({
@@ -21,7 +21,6 @@ export function onloginClickQuery(login, password) {
         })
     })
         .then(responce => responce.json())
-
 }
 
 export function onLikeQuery(postId, userToken) {
@@ -70,8 +69,8 @@ export function onAddPostClickQuery(userToken, description, imageUrl) {
     })
 }
 
-export function registerClickQuery(avatar, login, name, password) {
-    return fetch(baseUrl + '/api/user', {
+export function registerClickQuery(login, name, password, avatar) {
+    return fetch('https://wedev-api.sky.pro/api/user', {
         method: "POST",
         body: JSON.stringify({
             imageUrl: avatar,

@@ -1,0 +1,125 @@
+.App {
+  display: block;
+}
+
+.page-container {
+  padding: 0 20px;
+}
+
+.header-container {
+  margin-bottom: 8px;
+}
+
+.page-header {
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 16px;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.logo{
+      margin: 0;
+    font-size: 28px;
+    cursor: pointer;
+    width: 130px;
+}
+
+.header-button{
+  padding: 0;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+    .form-title{
+    font-size: 28px;
+    line-height: 35px;
+    text-align: center;
+  }
+
+    .upload-image-container{
+    display: block;
+  }
+
+    .upload-image{
+display: block;
+  }
+
+    .form-inputs{
+        display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+    .file-upload-label {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+
+.file-upload-image-conrainer {
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.label-description{
+    display: flex;
+    flex-direction: column;
+}
+
+  .button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
+
+.input {
+    height: 36px;
+    box-sizing: border-box;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(4, 18, 27);
+    border: none;
+    border-radius: 5px;
+    background-color: #e8e8e8;
+}
+
+.textarea {
+    padding: 15px;
+    resize: none;
+    width: 100%;
+    height: 100px;
+}

@@ -1,15 +1,14 @@
-import './App.css';
+import './style/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { onloginClickQuery } from './api-service';
+import { useState, useEffect } from 'react';
+import { onloginClickQuery } from './ApiService';
 import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login({ setUserToken }) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [loginClickState, setLoginClickState] = useState(false);
-    const [loginResponse, setLoginResponse] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -18,15 +17,21 @@ function Login({ setUserToken }) {
     }
 
     function loginClick() {
-        setLoginClickState(true)
+        setIsLoading(true)
         if (!login || !password) {
             return Promise.reject(new Error('не указан логин или пароль'));
         } else {
             onloginClickQuery(login, password)
                 .then((data) => {
-                    setLoginResponse(true)
-                    setUserToken(data.user.token)
-                    navigate('/');
+                    if (data.error) {
+                        setIsLoading(false)
+                        alert(data.error)
+                    } else {
+                        setIsLoading(false)
+                        localStorage.setItem('token', data.user.token)
+                        setUserToken(data.user.token)
+                        navigate('/');
+                    }
                 })
                 .catch(error => console.error('ошибка:', error))
         }
@@ -42,6 +47,11 @@ function Login({ setUserToken }) {
         setPassword(target);
     }
 
+    useEffect(() => {
+        localStorage.clear();
+        setUserToken('')
+    }, [])
+
     return (
         <>
             <div className="page-container">
@@ -53,7 +63,7 @@ function Login({ setUserToken }) {
                         </button>
                     </div>
                 </div>
-                {!loginResponse && loginClickState ?
+                {isLoading ?
                     <div className="spinner-container"><Spinner animation="border" /></div>
                     :
                     <div className="form">

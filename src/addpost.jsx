@@ -1,43 +1,26 @@
-import './App.css';
-import { useState, useRef } from 'react';
+import './style/AddPost.css';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onImageChangeQuery, onAddPostClickQuery } from './api-service';
+import { onAddPostClickQuery } from './ApiService';
+import AddImg from './AddImg'
 import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function AddPost({ userToken }) {
     const [description, setDescription] = useState("");
-    const [imageUrl, setImageUrl] = useState();
-    const [imageHasBeenChosen, setImageHasBeenChosen] = useState(false);
     const [regClickState, setRegClickState] = useState(false);
     const [regResponse, setRegResponse] = useState(false);
 
     const navigate = useNavigate();
-    const inputRef = useRef();
-
-    function handleChooseAnotherImg() {
-        setImageUrl('')
-        inputRef.current.click();
-    }
 
     function onDescriptionChange(event) {
         const target = event.target.value;
         setDescription(target);
     }
-
-    function onImageChange(event) {
-        const img = event.target.files[0];
-        const data = new FormData();
-        data.append('file', img);
-
-        onImageChangeQuery(data)
-            .then(data => setImageUrl(data.fileUrl))
-            .then(setImageHasBeenChosen(true))
-    }
-
+    // -------------------------------------------------------------
     function onAddPostClick() {
         setRegClickState(true)
-        onAddPostClickQuery(userToken, description, imageUrl)
+        onAddPostClickQuery(userToken, description, localStorage.getItem('imgUrl'))
             .then(setRegResponse(true))
             .then(navigate('/'))
             .catch(error => console.error('ошибка:', error))
@@ -71,22 +54,7 @@ function AddPost({ userToken }) {
                         <div className="upload=image"></div>
                     </div>
                     <div className="form-inputs">
-                        <div className="upload-image-container">
-                            <div className="upload=image" style={{ display: imageHasBeenChosen ? 'none' : 'flex' }} >
-                                <label className="file-upload-label secondary-button">
-                                    <input type="file" className="file-upload-input" style={{ display: 'none' }} ref={inputRef} onChange={onImageChange} />
-                                    Выберите фото
-                                </label>
-                            </div>
-                            {!imageUrl && imageHasBeenChosen ?
-                                <div className="spinner-container"><Spinner animation="border" /></div>
-                                :
-                                <div className="file-upload-image-conrainer" style={{ display: imageUrl ? 'flex' : 'none' }}>
-                                    <img className="file-upload-image" src={imageUrl} />
-                                    <button className="file-upload-remove-button button" onClick={handleChooseAnotherImg}>Заменить фото</button>
-                                </div>
-                            }
-                        </div>
+                        <AddImg />
                         <label className="label-description">
                             Опишите фотографию:
                             <textarea className="input textarea" rows="4" onChange={onDescriptionChange}></textarea>

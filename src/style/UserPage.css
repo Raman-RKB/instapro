@@ -1,0 +1,82 @@
+  .button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
+
+.secondary-button {
+    background-color: #edecff;
+    color: #565eef;
+}
+
+.secondary-button {
+    background-color: #edecff;
+    color: #565eef;
+}
+
+
+
+.form-error {
+    color: red;
+}
+
+.button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}
+
+
+
+.header-button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.posts-user-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.posts-user-header__user-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 40px;
+    margin-right: 10px;
+}
+
+.posts-user-header__user-name {
+    font-size: 28px;
+    line-height: 35px;
+}
+
+
+
+.button, .secondary-button {
+    display: block;
+    padding: 10px 13px 13px;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5px;
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+}

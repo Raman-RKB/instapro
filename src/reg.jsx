@@ -1,29 +1,20 @@
-import './App.css';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { onImageChangeQuery, registerClickQuery } from './api-service';
+import { registerClickQuery, onImageChangeQuery } from './ApiService';
 import { Spinner } from 'react-bootstrap';
+import AddImg from './AddImg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Reg({ setUserToken }) {
+function Reg({ setUserToken, imageUrl }) {
     const [name, setName] = useState("");
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [avatar, setAvatar] = useState("");
-    const [regClickState, setRegClickState] = useState(false);
-    const [regResponse, setRegResponse] = useState(false);
-    const [imageHasBeenChosen, setImageHasBeenChosen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
-    const inputRef = useRef();
 
     function navigateToMain() {
         navigate('/');
-    }
-
-    function handleChooseAnotherImg() {
-        setAvatar('')
-        inputRef.current.click();
     }
 
     function onNameSet(event) {
@@ -40,32 +31,20 @@ function Reg({ setUserToken }) {
         const target = event.target.value;
         setPassword(target);
     }
-
+    // -------------------------------------------------------------------------------
     function registerClick() {
-        setRegClickState(true)
+        setIsLoading(true)
         if (name.length && login.length && password.length) {
-            registerClickQuery(avatar, login, name, password)
+            registerClickQuery(login, name, password, localStorage.getItem('imgUrl'))
                 .then(data => {
-                    setUserToken(data.user.token);
-                    setRegResponse(true)
-                    navigate('/login');
+                    // eslint-disable-next-line no-unused-expressions
+                    data.error ? (alert(data.error), setIsLoading(false)) : (setUserToken(data.user.token), setIsLoading(false), navigate('/login'))
                 })
                 .catch(error => console.error('ошибка:', error))
         } else {
+            setIsLoading(false)
             alert('Вы ввели не все данные')
         }
-    }
-
-    function handleAvaUpload(event) {
-        const img = event.target.files[0];
-        const data = new FormData();
-        data.append('file', img);
-
-        onImageChangeQuery(data)
-            .then(data => {
-                setAvatar(data.fileUrl)
-                setImageHasBeenChosen(true)
-            })
     }
 
     return (
@@ -76,28 +55,13 @@ function Reg({ setUserToken }) {
                     <button className="header-button add-or-login-button">Войти</button>
                 </div>
             </div>
-            {!regResponse && regClickState ?
+            {isLoading ?
                 <div className="spinner-container"><Spinner animation="border" /></div>
                 :
                 <div className="form">
                     <h3 className="form-title"> Регистрация&nbsp;в&nbsp;Instapro</h3>
                     <div className="form-inputs">
-                        <div className="upload-image-container">
-                            <div className="upload-image" style={{ display: imageHasBeenChosen ? 'none' : 'flex' }}>
-                                <label className="file-upload-label secondary-button">
-                                    <input type="file" className="file-upload-input" style={{ display: 'none' }} ref={inputRef} onChange={handleAvaUpload} />
-                                    Выберите фото
-                                </label>
-                            </div>
-                            {!avatar && imageHasBeenChosen ?
-                                <div className="spinner-container"><Spinner animation="border" /></div>
-                                :
-                                <div className="file-upload-image-conrainer" style={{ display: avatar ? 'flex' : 'none' }}>
-                                    <img className="file-upload-image" src={avatar} />
-                                    <button className="file-upload-remove-button button" onClick={handleChooseAnotherImg}>Заменить фото</button>
-                                </div>
-                            }
-                        </div>
+                        <AddImg />
                         <input type="text" id="name-input" class="input" placeholder="Имя" onChange={onNameSet} />
                         <input type="text" id="login-input" class="input" placeholder="Логин" onChange={onLoginSet} />
                         <input type="password" id="password-input" class="input" placeholder="Пароль" onChange={onPasswordSet} />
@@ -107,7 +71,7 @@ function Reg({ setUserToken }) {
                     <div className="form-footer">
                         <p class="form-footer-title">
                             Уже есть аккаунт?
-                            <NavLink to='/'>
+                            <NavLink to='/login'>
                                 <button class="link-button" id="toggle-button">
                                     &nbsp;Войти.
                                 </button>
