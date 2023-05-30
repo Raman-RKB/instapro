@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App({ setUserId, userToken }) {
   const [allPosts, setAllPosts] = useState([]);
@@ -21,7 +22,6 @@ function App({ setUserId, userToken }) {
 
   return (
     <div className="App">
-      <Spinner animation="border" />
       <div className="page-container">
         <div className="header-container">
           <div className="page-header">
@@ -39,7 +39,7 @@ function App({ setUserId, userToken }) {
           </div>
         </div>
         <ul className="posts" >
-          {allPosts.map((post) => (
+          {allPosts.length ? (allPosts.map((post) => (
             <Post
               key={post.id}
               img={post.imageUrl}
@@ -53,7 +53,7 @@ function App({ setUserId, userToken }) {
               userToken={userToken}
               postId={post.id}
             />
-          ))}
+          ))) : <div className="spinner-container"><Spinner animation="border" /></div>}
         </ul>
       </div>
     </div>

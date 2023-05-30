@@ -69,3 +69,15 @@ export function onAddPostClickQuery(userToken, description, imageUrl) {
         })
     })
 }
+
+export function registerClickQuery(avatar, login, name, password) {
+    return fetch(baseUrl + '/api/user', {
+        method: "POST",
+        body: JSON.stringify({
+            imageUrl: avatar,
+            login: login,
+            name: name,
+            password: password
+        })
+    }).then(response => response.json())
+}
