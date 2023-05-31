@@ -80,3 +80,11 @@
     color: #ffffff;
     border: none;
 }
+
+.logged-out {
+  display: none;
+}
+
+.logged-in {
+  display: block;
+}

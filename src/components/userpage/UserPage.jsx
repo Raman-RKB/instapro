@@ -1,6 +1,6 @@
 import './style/UserPage.css';
-import Post from './Post';
-import { renderAllUsersPosts } from './ApiService';
+import Post from '../modules/Post';
+import { renderAllUsersPosts } from '../../ApiService';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,11 @@ function UserPage({ userId, userToken }) {
     }
 
     useEffect(() => {
-        renderAllUsersPosts(setAllPosts, userId)
+        async function fetchData() {
+            const data = await renderAllUsersPosts(userId);
+            setAllPosts(data?.posts);
+        }
+        fetchData()
     }, [])
 
     return (
@@ -26,8 +30,8 @@ function UserPage({ userId, userToken }) {
                 <div className="header-container">
                     <div className="page-header">
                         <div className="logo" onClick={navigateToMain}>instapro</div>
-                        <button className="header-button add-or-login-button" onClick={navigateToAddPost}
-                            style={userToken ? { display: 'block' } : { display: 'none' }}>
+                        <button className={`header-button add-or-login-button ${userToken ? 'logged-in' : 'logged-out'}`}
+                            onClick={navigateToAddPost}>
                             <div title="Добавить пост" className="add-post-sign"></div>
                         </button>
                         <Link to="/login">

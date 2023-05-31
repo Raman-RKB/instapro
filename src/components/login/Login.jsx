@@ -1,7 +1,7 @@
 import './style/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { onloginClickQuery } from './ApiService';
+import { fetchLoginData } from '../../ApiService';
 import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,24 +16,22 @@ function Login({ setUserToken }) {
         navigate('/');
     }
 
-    function loginClick() {
+    async function loginClick() {
         setIsLoading(true)
         if (!login || !password) {
             return Promise.reject(new Error('не указан логин или пароль'));
         } else {
-            onloginClickQuery(login, password)
-                .then((data) => {
-                    if (data.error) {
-                        setIsLoading(false)
-                        alert(data.error)
-                    } else {
-                        setIsLoading(false)
-                        localStorage.setItem('token', data.user.token)
-                        setUserToken(data.user.token)
-                        navigate('/');
-                    }
-                })
-                .catch(error => console.error('ошибка:', error))
+            const data = await fetchLoginData(login, password)
+            if (data.error) {
+                setIsLoading(false)
+                alert(data.error)
+            } else {
+                setIsLoading(false)
+                localStorage.setItem('token', data.user.token)
+                setUserToken(data.user.token)
+                navigate('/');
+            }
+            return Promise.resolve(data);
         }
     }
 

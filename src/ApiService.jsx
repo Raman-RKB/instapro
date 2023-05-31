@@ -1,29 +1,42 @@
 const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
 
-
-export function renderAllPosts() {
-    return fetch(baseUrl)
-        .then((response) => response.json())
+export async function renderAllPosts() {
+    try {
+        const response = await fetch(baseUrl);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-export function renderAllUsersPosts(setAllPosts, userId) {
-    return fetch(baseUrl + `/user-posts/${userId}`)
-        .then((response) => response.json())
-        .then((data) => setAllPosts(data.posts))
+export async function renderAllUsersPosts(userId) {
+    try {
+        const response = await fetch(baseUrl + `/user-posts/${userId}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-export function onloginClickQuery(login, password) {
-    return fetch('https://webdev-hw-api.vercel.app/api/user/login', {
-        method: "POST",
-        body: JSON.stringify({
-            login: login,
-            password: password
-        })
-    })
-        .then(responce => responce.json())
+export async function fetchLoginData(login, password) {
+    try {
+        const response = await fetch('https://webdev-hw-api.vercel.app/api/user/login', {
+            method: "POST",
+            body: JSON.stringify({
+                login: login,
+                password: password
+            })
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-export function onLikeQuery(postId, userToken) {
+export function fetchLike(postId, userToken) {
     return fetch(baseUrl + `/${postId}/like`, {
         method: 'POST',
         headers: {
@@ -33,7 +46,7 @@ export function onLikeQuery(postId, userToken) {
         .then(response => response.json())
 }
 
-export function onDislikeQuery(postId, userToken) {
+export function fetchDislike(postId, userToken) {
     return fetch(baseUrl + `/${postId}/dislike`, {
         method: 'POST',
         headers: {
@@ -43,12 +56,12 @@ export function onDislikeQuery(postId, userToken) {
         .then(response => response.json())
 }
 
-export function onRefreshLikeQuery(userId) {
+export function fetchRefreshLike(userId) {
     return fetch(baseUrl + `/user-posts/${userId}`)
         .then((response) => response.json())
 }
 
-export function onImageChangeQuery(data) {
+export function fetchImageChange(data) {
     return fetch('https://webdev-hw-api.vercel.app/api/upload/image', {
         method: 'POST',
         body: data
@@ -56,7 +69,7 @@ export function onImageChangeQuery(data) {
         .then(response => response.json())
 }
 
-export function onAddPostClickQuery(userToken, description, imageUrl) {
+export function fetchAddPost(userToken, description, imageUrl) {
     return fetch('https://webdev-hw-api.vercel.app/api/v1/prod/instapro', {
         method: "POST",
         headers: {
@@ -67,9 +80,10 @@ export function onAddPostClickQuery(userToken, description, imageUrl) {
             imageUrl: imageUrl
         })
     })
+        .then(response => response.json())
 }
 
-export function registerClickQuery(login, name, password, avatar) {
+export function fetchRegisterData(login, name, password, avatar) {
     return fetch('https://wedev-api.sky.pro/api/user', {
         method: "POST",
         body: JSON.stringify({
