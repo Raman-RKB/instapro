@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './style/Post.css';
-import likeNotActive from './img/like-not-active.svg';
-import likeActive from './img/like-active.svg';
+import likeNotActive from '../../img/like-not-active.svg';
+import likeActive from '../../img/like-active.svg';
 import { useNavigate } from 'react-router-dom';
-import { onDislikeQuery, onLikeQuery, onRefreshLikeQuery } from './ApiService'
+import { fetchDislike, fetchLike, fetchRefreshLike } from '../../ApiService'
 
 
 function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
@@ -20,14 +20,14 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
 
     function onLikeClick() {
         if (like) {
-            onDislikeQuery(postId, userToken)
+            fetchDislike(postId, userToken)
                 .then(data => {
                     data && setLike(false)
                     refreshLikes()
                 })
                 .catch(error => console.error('ошибка:', error))
         } else {
-            onLikeQuery(postId, userToken)
+            fetchLike(postId, userToken)
                 .then(data => {
                     setLike(true)
                     refreshLikes()
@@ -42,7 +42,7 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
     }
 
     function refreshLikes() {
-        onRefreshLikeQuery(userId)
+        fetchRefreshLike(userId)
             .then((data) => {
                 for (let i = 0; i < data.posts.length; i++) {
                     data.posts[i].id === postId && setLikeState(data.posts[i].likes)
@@ -81,14 +81,14 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                     <span className="user-name">{name}&nbsp;</span>
                     {description}
                 </p>
-
+                
                 {differenceMs > 86400000 ?
-                    (<p className="post-date">{`${differenceDays} дня назад`}</p>)
+                    (<p className="post-date">{`${differenceDays} дн назад`}</p>)
                     :
                     (differenceMs > 3600000 ?
-                        (<p className="post-date">{`${hoursAgo} час назад`}</p>)
+                        (<p className="post-date">{`${hoursAgo} ч назад`}</p>)
                         :
-                        (<p className="post-date">{`${minutesAgo} минута назад`}</p>))
+                        (<p className="post-date">{`${minutesAgo} мин назад`}</p>))
                 }
             </li>
         </>

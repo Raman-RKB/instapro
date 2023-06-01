@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import App from "./App";
-import Reg from "./Reg";
-import Login from "./Login";
-import AddPost from "./AddPost";
+import App from "./components/main/App";
+import Reg from "./components/registration/Reg";
+import Login from "./components/login/Login";
+import AddPost from "./components/addpost/AddPost";
 import { useEffect, useState } from "react";
-import UserPage from "./UserPage";
+import UserPage from "./components/userpage/UserPage";
 
 export const AppRoutes = () => {
     const [userId, setUserId] = useState();

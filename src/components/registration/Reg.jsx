@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { registerClickQuery, onImageChangeQuery } from './ApiService';
+import { fetchRegisterData } from '../../ApiService';
 import { Spinner } from 'react-bootstrap';
-import AddImg from './AddImg'
+import AddImg from '../modules/AddImg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Reg({ setUserToken, imageUrl }) {
@@ -35,7 +35,7 @@ function Reg({ setUserToken, imageUrl }) {
     function registerClick() {
         setIsLoading(true)
         if (name.length && login.length && password.length) {
-            registerClickQuery(login, name, password, localStorage.getItem('imgUrl'))
+            fetchRegisterData(login, name, password, localStorage.getItem('imgUrl'))
                 .then(data => {
                     // eslint-disable-next-line no-unused-expressions
                     data.error ? (alert(data.error), setIsLoading(false)) : (setUserToken(data.user.token), setIsLoading(false), navigate('/login'))
@@ -52,7 +52,9 @@ function Reg({ setUserToken, imageUrl }) {
             <div className="header-container">
                 <div className="page-header">
                     <h1 className="logo" onClick={navigateToMain}>instapro</h1>
-                    <button className="header-button add-or-login-button">Войти</button>
+                    <NavLink to='/login'>
+                        <button className="header-button add-or-login-button">Войти</button>
+                    </NavLink>
                 </div>
             </div>
             {isLoading ?
@@ -62,17 +64,17 @@ function Reg({ setUserToken, imageUrl }) {
                     <h3 className="form-title"> Регистрация&nbsp;в&nbsp;Instapro</h3>
                     <div className="form-inputs">
                         <AddImg />
-                        <input type="text" id="name-input" class="input" placeholder="Имя" onChange={onNameSet} />
-                        <input type="text" id="login-input" class="input" placeholder="Логин" onChange={onLoginSet} />
-                        <input type="password" id="password-input" class="input" placeholder="Пароль" onChange={onPasswordSet} />
-                        <div class="form-error"></div>
-                        <button class="button" id="login-button" onClick={registerClick}>Зарегистрироваться</button>
+                        <input type="text" id="name-input" className="input" placeholder="Имя" onChange={onNameSet} />
+                        <input type="text" id="login-input" className="input" placeholder="Логин" onChange={onLoginSet} />
+                        <input type="password" id="password-input" className="input" placeholder="Пароль" onChange={onPasswordSet} />
+                        <div className="form-error"></div>
+                        <button className="button" id="login-button" onClick={registerClick}>Зарегистрироваться</button>
                     </div>
                     <div className="form-footer">
-                        <p class="form-footer-title">
+                        <p className="form-footer-title">
                             Уже есть аккаунт?
                             <NavLink to='/login'>
-                                <button class="link-button" id="toggle-button">
+                                <button className="link-button" id="toggle-button">
                                     &nbsp;Войти.
                                 </button>
                             </NavLink>

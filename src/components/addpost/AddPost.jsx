@@ -1,8 +1,8 @@
 import './style/AddPost.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onAddPostClickQuery } from './ApiService';
-import AddImg from './AddImg'
+import { fetchAddPost } from '../../ApiService';
+import AddImg from '../modules/AddImg'
 import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,10 +17,10 @@ function AddPost({ userToken }) {
         const target = event.target.value;
         setDescription(target);
     }
-    // -------------------------------------------------------------
+
     function onAddPostClick() {
         setRegClickState(true)
-        onAddPostClickQuery(userToken, description, localStorage.getItem('imgUrl'))
+        fetchAddPost(userToken, description, localStorage.getItem('imgUrl'))
             .then(setRegResponse(true))
             .then(navigate('/'))
             .catch(error => console.error('ошибка:', error))
