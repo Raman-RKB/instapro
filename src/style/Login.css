@@ -1,0 +1,20 @@
+.form-footer {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-footer-title {
+    text-align: center;
+}
+
+.link-button {
+    display: inline;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: #565eef;
+    cursor: pointer;
+}
+

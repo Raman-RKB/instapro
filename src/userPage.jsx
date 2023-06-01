@@ -1,6 +1,6 @@
-import './App.css';
-import Post from './post';
-import { renderAllUsersPosts } from './api-service';
+import './style/UserPage.css';
+import Post from './Post';
+import { renderAllUsersPosts } from './ApiService';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import './App.css';
+import './style/Post.css';
 import likeNotActive from './img/like-not-active.svg';
 import likeActive from './img/like-active.svg';
 import { useNavigate } from 'react-router-dom';
-import { onDislikeQuery, onLikeQuery, onRefreshLikeQuery } from './api-service'
+import { onDislikeQuery, onLikeQuery, onRefreshLikeQuery } from './ApiService'
 
 
 function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
