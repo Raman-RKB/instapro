@@ -1,13 +1,14 @@
-const baseUrl = 'https://webdev-hw-api.vercel.app/api/v1/prod/instapro';
+const baseUrl = 'https://wedev-api.sky.pro';
 
 export async function renderAllPosts() {
-    try {
-        const response = await fetch(baseUrl);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
+    return fetch(baseUrl + '/api/v1/prod/instapro')
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('Ошибка: ' + response.status)
+            }
+        })
 }
 
 export async function renderAllUsersPosts(userId) {
@@ -22,7 +23,7 @@ export async function renderAllUsersPosts(userId) {
 
 export async function fetchLoginData(login, password) {
     try {
-        const response = await fetch('https://webdev-hw-api.vercel.app/api/user/login', {
+        const response = await fetch(baseUrl + '/api/user/login', {
             method: "POST",
             body: JSON.stringify({
                 login: login,
@@ -37,7 +38,7 @@ export async function fetchLoginData(login, password) {
 }
 
 export function fetchLike(postId, userToken) {
-    return fetch(baseUrl + `/${postId}/like`, {
+    return fetch(`https://wedev-api.sky.pro/api/v1/roman-kaiko/instapro/${postId}/like`, {
         method: 'POST',
         headers: {
             "Authorization": `Bearer ${userToken}`
@@ -47,7 +48,7 @@ export function fetchLike(postId, userToken) {
 }
 
 export function fetchDislike(postId, userToken) {
-    return fetch(baseUrl + `/${postId}/dislike`, {
+    return fetch(baseUrl + `/api/${postId}/dislike`, {
         method: 'POST',
         headers: {
             "Authorization": `Bearer ${userToken}`
@@ -62,7 +63,7 @@ export function fetchRefreshLike(userId) {
 }
 
 export function fetchImageChange(data) {
-    return fetch('https://webdev-hw-api.vercel.app/api/upload/image', {
+    return fetch(baseUrl + '/api/upload/image', {
         method: 'POST',
         body: data
     })
@@ -70,7 +71,7 @@ export function fetchImageChange(data) {
 }
 
 export function fetchAddPost(userToken, description, imageUrl) {
-    return fetch('https://webdev-hw-api.vercel.app/api/v1/prod/instapro', {
+    return fetch(baseUrl + '/api/v1/prod/instapro', {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${userToken}`
@@ -84,7 +85,7 @@ export function fetchAddPost(userToken, description, imageUrl) {
 }
 
 export function fetchRegisterData(login, name, password, avatar) {
-    return fetch('https://wedev-api.sky.pro/api/user', {
+    return fetch(baseUrl + '/api/user', {
         method: "POST",
         body: JSON.stringify({
             imageUrl: avatar,
