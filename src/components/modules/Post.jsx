@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './style/Post.css';
 import likeNotActive from '../../img/like-not-active.svg';
 import likeActive from '../../img/like-active.svg';
@@ -17,6 +17,34 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
     const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
     const hoursAgo = Math.floor(differenceMs / (1000 * 60 * 60));
     const minutesAgo = Math.floor(differenceMs / (1000 * 60));
+
+    let postAge = null;
+    if (differenceMs > 86400000) {
+        postAge = <p className="post-date">{`${differenceDays} дн назад`}</p>;
+    } else if (differenceMs > 3600000) {
+        postAge = <p className="post-date">{`${hoursAgo} ч назад`}</p>;
+    } else if (differenceMs < 60000) {
+        postAge = <p className="post-date">{`только что`}</p>;
+    } else {
+        postAge = <p className="post-date">{`${minutesAgo} мин назад`}</p>;
+    }
+
+    let usersLikesIndicator = null;
+    if (likeState.length === 0) {
+        usersLikesIndicator = <p className="post-likes-text">Нравится:&nbsp;0</p>
+    } else if (likeState.length === 1) {
+        usersLikesIndicator = <p className="post-likes-text">
+            Нравится:&nbsp;
+            <strong>{likeState[0].name}</strong>
+        </p>
+    } else if (likeState.length > 1) {
+        usersLikesIndicator = <p className="post-likes-text">
+            Нравится:&nbsp;
+            <strong>{likeState[0].name}</strong>
+            &nbsp;и&nbsp;
+            <strong>{`еще ${likeState.length - 1}`}</strong>
+        </p>
+    }
 
     function onLikeClick() {
         if (like) {
@@ -50,6 +78,12 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
             })
     }
 
+    useEffect(() => {
+        for (let i = 0; i < likes.length; i++) {
+            likes[i].id === localStorage.getItem('loggedUserId') && setLike(true)
+        }
+    }, [likes])
+
     return (
         <>
             <li className="post">
@@ -64,32 +98,13 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
                     <button className="like-button" onClick={onLikeClick}>
                         <img src={like ? likeActive : likeNotActive}></img>
                     </button>
-                    {likeState.length > 0 ? (
-                        <p className="post-likes-text">
-                            Нравится:&nbsp;
-                            <strong>{likeState[0].name}</strong>
-                            &nbsp;и&nbsp;
-                            <strong>{`еще ${likeState.length - 1}`}</strong>
-                        </p>
-                    ) : (
-                        <p className="post-likes-text">
-                            Нравится:&nbsp;0
-                        </p>
-                    )}
+                    {usersLikesIndicator}
                 </div>
                 <p className="post-text">
                     <span className="user-name">{name}&nbsp;</span>
                     {description}
                 </p>
-                
-                {differenceMs > 86400000 ?
-                    (<p className="post-date">{`${differenceDays} дн назад`}</p>)
-                    :
-                    (differenceMs > 3600000 ?
-                        (<p className="post-date">{`${hoursAgo} ч назад`}</p>)
-                        :
-                        (<p className="post-date">{`${minutesAgo} мин назад`}</p>))
-                }
+                {postAge}
             </li>
         </>
     );

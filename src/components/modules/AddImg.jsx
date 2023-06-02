@@ -3,14 +3,14 @@ import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { fetchImageChange } from '../../ApiService';
 
-function AddImg({ setImgUrl }) {
+function AddImg({ setImgUrlForRequest }) {
     const [imageHasBeenChosen, setImageHasBeenChosen] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
+    const [imgUrlForShowingChoosenPic, setImgUrlForShowingChoosenPic] = useState();
 
     const inputRef = useRef();
 
     function handleChooseAnotherImg() {
-        setImageUrl('')
+        setImgUrlForShowingChoosenPic('')
         inputRef.current.click();
     }
 
@@ -18,11 +18,12 @@ function AddImg({ setImgUrl }) {
         const img = event.target.files[0];
         const data = new FormData();
         data.append('file', img);
+        setImageHasBeenChosen(true)
 
         fetchImageChange(data)
             .then(data => {
-                setImageUrl(data.fileUrl)
-                setImgUrl(data.fileUrl)
+                setImgUrlForShowingChoosenPic(data.fileUrl)
+                setImgUrlForRequest(data.fileUrl)
                 setImageHasBeenChosen(true)
             })
     }
@@ -35,11 +36,11 @@ function AddImg({ setImgUrl }) {
                     Выберите фото
                 </label>
             </div>
-            {!imageUrl && imageHasBeenChosen ?
+            {!imgUrlForShowingChoosenPic && imageHasBeenChosen ?
                 <div className="spinner-container"><Spinner animation="border" /></div>
                 :
-                <div className={`file-upload-image-conrainer ${imageUrl?.length ? 'imageUrlSeted' : 'noImgURL'}`} >
-                    <img className="file-upload-image" src={imageUrl} />
+                <div className={`file-upload-image-conrainer ${imgUrlForShowingChoosenPic?.length ? 'imageUrlSeted' : 'noImgURL'}`} >
+                    <img className="file-upload-image" src={imgUrlForShowingChoosenPic} />
                     <button className="file-upload-remove-button button" onClick={handleChooseAnotherImg}>Заменить фото</button>
                 </div>
             }
