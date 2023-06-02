@@ -19,7 +19,11 @@ function UserPage({ userId, userToken }) {
     useEffect(() => {
         async function fetchData() {
             const data = await renderAllUsersPosts(userId);
-            setAllPosts(data?.posts);
+            if (data) {
+                setAllPosts(data?.posts);
+            } else {
+                navigate('/');
+            }
         }
         fetchData()
     }, [])

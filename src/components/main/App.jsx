@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App({ setUserId, userToken }) {
+function App({ setUserId, userToken, }) {
   const [allPosts, setAllPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -17,15 +17,15 @@ function App({ setUserId, userToken }) {
 
   useEffect(() => {
     renderAllPosts()
-      .then(data => setAllPosts(data.posts))
-      .catch(error => {
-        console.error(error)
-        alert('Ошибка загрузки данных')
-      })
+      .then(data => {
+        setAllPosts(data.posts)
+        console.log(data);
+      }
+      )
   }, [])
 
   return (
-    <div className="App">
+    <div className="app">
       <div className="page-container">
         <div className="header-container">
           <div className="page-header">

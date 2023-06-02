@@ -22,7 +22,7 @@ export const AppRoutes = () => {
             <Route path="/" element={<App userToken={userToken} setUserId={setUserId} />} />
             <Route path="/reg" element={<Reg setUserToken={setUserToken} />} />
             <Route path="/login" element={<Login setUserToken={setUserToken} />} />
-            <Route path="/add-post" element={<AddPost userToken={userToken} />} />
+            <Route path="/add-post" element={<AddPost  userToken={userToken} />} />
             <Route path="/user-page" element={<UserPage userToken={userToken} userId={userId} />} />
         </Routes>
     );
