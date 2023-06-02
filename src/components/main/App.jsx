@@ -16,11 +16,12 @@ function App({ setUserId, userToken }) {
   }
 
   useEffect(() => {
-    async function allPostsData() {
-      const data = await renderAllPosts();
-      setAllPosts(data?.posts)
-    }
-    allPostsData()
+    renderAllPosts()
+      .then(data => setAllPosts(data.posts))
+      .catch(error => {
+        console.error(error)
+        alert('Ошибка загрузки данных')
+      })
   }, [])
 
   return (
