@@ -1,4 +1,4 @@
-.App {
+.app {
   display: block;
 }
 
@@ -62,4 +62,19 @@ display: flex;
 
 .logged-in {
   display: block;
+}
+
+.posts-user-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.posts-user-header__user-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 40px;
+    margin-right: 10px;
 }

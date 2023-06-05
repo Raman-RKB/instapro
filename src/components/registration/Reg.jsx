@@ -5,11 +5,12 @@ import { Spinner } from 'react-bootstrap';
 import AddImg from '../modules/AddImg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Reg({ setUserToken, imageUrl }) {
+function Reg({ setUserToken }) {
     const [name, setName] = useState("");
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [imgUrlForReg, setImgUrlForReg] = useState(false);
 
     const navigate = useNavigate();
 
@@ -31,11 +32,11 @@ function Reg({ setUserToken, imageUrl }) {
         const target = event.target.value;
         setPassword(target);
     }
-    // -------------------------------------------------------------------------------
+
     function registerClick() {
         setIsLoading(true)
         if (name.length && login.length && password.length) {
-            fetchRegisterData(login, name, password, localStorage.getItem('imgUrl'))
+            fetchRegisterData(login, name, password, imgUrlForReg)
                 .then(data => {
                     // eslint-disable-next-line no-unused-expressions
                     data.error ? (alert(data.error), setIsLoading(false)) : (setUserToken(data.user.token), setIsLoading(false), navigate('/login'))
@@ -63,7 +64,7 @@ function Reg({ setUserToken, imageUrl }) {
                 <div className="form">
                     <h3 className="form-title"> Регистрация&nbsp;в&nbsp;Instapro</h3>
                     <div className="form-inputs">
-                        <AddImg />
+                        <AddImg setImgUrlForReg={setImgUrlForReg} />
                         <input type="text" id="name-input" className="input" placeholder="Имя" onChange={onNameSet} />
                         <input type="text" id="login-input" className="input" placeholder="Логин" onChange={onLoginSet} />
                         <input type="password" id="password-input" className="input" placeholder="Пароль" onChange={onPasswordSet} />

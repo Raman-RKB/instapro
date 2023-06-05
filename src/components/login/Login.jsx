@@ -22,12 +22,13 @@ function Login({ setUserToken }) {
             return Promise.reject(new Error('не указан логин или пароль'));
         } else {
             const data = await fetchLoginData(login, password)
-            if (data.error) {
+            if (!data) {
                 setIsLoading(false)
-                alert(data.error)
             } else {
                 setIsLoading(false)
+                console.log(data);
                 localStorage.setItem('token', data.user.token)
+                localStorage.setItem('loggedUserId', data.user._id)
                 setUserToken(data.user.token)
                 navigate('/');
             }
