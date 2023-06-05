@@ -4,7 +4,6 @@ import Reg from "./components/registration/Reg";
 import Login from "./components/login/Login";
 import AddPost from "./components/addpost/AddPost";
 import { useEffect, useState } from "react";
-import UserPage from "./components/userpage/UserPage";
 
 export const AppRoutes = () => {
     const [userId, setUserId] = useState();
@@ -19,11 +18,10 @@ export const AppRoutes = () => {
     return (
 
         <Routes>
-            <Route path="/" element={<App userToken={userToken} setUserId={setUserId} />} />
+            <Route path="/" element={<App userToken={userToken} setUserId={setUserId} userId={userId} />} />
             <Route path="/reg" element={<Reg setUserToken={setUserToken} />} />
             <Route path="/login" element={<Login setUserToken={setUserToken} />} />
-            <Route path="/add-post" element={<AddPost  userToken={userToken} />} />
-            <Route path="/user-page" element={<UserPage userToken={userToken} userId={userId} />} />
+            <Route path="/add-post" element={<AddPost userToken={userToken} />} />
         </Routes>
     );
 };

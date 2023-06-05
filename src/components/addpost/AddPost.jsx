@@ -10,7 +10,7 @@ function AddPost({ userToken }) {
     const [description, setDescription] = useState("");
     const [regClickState, setRegClickState] = useState(false);
     const [regResponse, setRegResponse] = useState(false);
-    const [imgUrlForRequest, setImgUrlForRequest] = useState(false);
+    const [imgUrlForPost, setImgUrlForPost] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function AddPost({ userToken }) {
 
     function onAddPostClick() {
         setRegClickState(true)
-        fetchAddPost(userToken, description, imgUrlForRequest)
+        fetchAddPost(userToken, description, imgUrlForPost)
             .then(data => {
                 if (data.result === 'ok') {
                     setRegResponse(true)
@@ -62,7 +62,7 @@ function AddPost({ userToken }) {
                         <div className="upload=image"></div>
                     </div>
                     <div className="form-inputs">
-                        <AddImg setImgUrlForRequest={setImgUrlForRequest} />
+                        <AddImg setImgUrlForPost={setImgUrlForPost} />
                         <label className="label-description">
                             Опишите фотографию:
                             <textarea className="input textarea" rows="4" onChange={onDescriptionChange}></textarea>

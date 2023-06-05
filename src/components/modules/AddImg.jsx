@@ -3,7 +3,7 @@ import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { fetchImageChange } from '../../ApiService';
 
-function AddImg({ setImgUrlForRequest }) {
+function AddImg({ setImgUrlForPost, setImgUrlForReg }) {
     const [imageHasBeenChosen, setImageHasBeenChosen] = useState(false);
     const [imgUrlForShowingChoosenPic, setImgUrlForShowingChoosenPic] = useState();
 
@@ -22,8 +22,9 @@ function AddImg({ setImgUrlForRequest }) {
 
         fetchImageChange(data)
             .then(data => {
+                setImgUrlForPost && setImgUrlForPost(data.fileUrl)
+                setImgUrlForReg && setImgUrlForReg(data.fileUrl)
                 setImgUrlForShowingChoosenPic(data.fileUrl)
-                setImgUrlForRequest(data.fileUrl)
                 setImageHasBeenChosen(true)
             })
     }

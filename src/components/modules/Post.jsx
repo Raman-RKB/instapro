@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import './style/Post.css';
 import likeNotActive from '../../img/like-not-active.svg';
 import likeActive from '../../img/like-active.svg';
-import { useNavigate } from 'react-router-dom';
 import { fetchDislike, fetchLike, fetchRefreshLike } from '../../ApiService'
 
 
-function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken }) {
+function Post({ postId, img, likes, description, date, name, userAva, userId, setUserId, userToken, setUserPageNav }) {
     const [like, setLike] = useState(false);
     const [likeState, setLikeState] = useState(likes);
-    const navigate = useNavigate();
 
     const dateObj = new Date(date);
     const now = new Date();
@@ -66,7 +64,7 @@ function Post({ postId, img, likes, description, date, name, userAva, userId, se
 
     function handleUserClick() {
         setUserId(userId);
-        navigate('/user-page')
+        setUserPageNav(true);
     }
 
     function refreshLikes() {
